@@ -5,6 +5,7 @@ import particleOptions from './components/ParticleOptions/ParticleOptions';
 import Navigation from './components/Navigation/Navigation'
 import Logo from './components/Logo/Logo'
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
+import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Rank from './components/Rank/Rank';
 import './App.css';
 import 'tachyons';
@@ -19,6 +20,7 @@ class App extends React.Component{
     super(props);
     this.state = {
       inputString : '',
+      imageUrl : '',
     }
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSubmitChange = this.onSubmitChange.bind(this);
@@ -26,13 +28,14 @@ class App extends React.Component{
 
   onSearchChange = (event) => {
     console.log(event.target.value);
+    this.setState({inputString : event.target.value});
   }
 
   onSubmitChange = (event) => {
-    console.log('click');
-    app.models.predict("a403429f2ddf4b49b307e318f00e528b", "https://samples.clarifai.com/face-det.jpg").then(
+    this.setState({imageUrl : this.state.inputString});
+    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputString).then(
     function(response) {
-      console.log(response)
+      console.log(response.outputs[0].data.regions[0].region_info.bounding_box)
     },
     function(err) {
       console.log("In error section");
@@ -50,6 +53,7 @@ class App extends React.Component{
         <Logo />
         <Rank />
         <ImageLinkForm onSearchChange = {this.onSearchChange} onSubmitChange = {this.onSubmitChange}/>
+        <FaceRecognition imageUrl = {this.state.imageUrl}/>
 
       </div>
     );
