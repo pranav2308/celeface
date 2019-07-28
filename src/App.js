@@ -4,6 +4,7 @@ import Clarifai from 'clarifai';
 import particleOptions from './components/ParticleOptions/ParticleOptions';
 import Navigation from './components/Navigation/Navigation';
 import Signin from './components/Signin/Signin';
+import Register from './components/Register/Register';
 import Logo from './components/Logo/Logo'
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
@@ -23,10 +24,12 @@ class App extends React.Component{
       inputString : '',
       imageUrl : '',
       box : '',
-      route : 'signin'
+      route : 'signin',
+      isSignedIn : false
     }
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSubmitChange = this.onSubmitChange.bind(this);
+    this.onRouteChange = this.onRouteChange.bind(this);
   }
   calculateFaceLocation = (data) => {
   const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
@@ -62,6 +65,12 @@ class App extends React.Component{
   }
 
   onRouteChange = (route) => {
+    if(route === 'home'){
+      this.setState({isSignedIn : true});
+    }
+    else{
+      this.setState({isSignedIn : false}); 
+    }
     this.setState({route : route});
   }
 
@@ -70,6 +79,9 @@ class App extends React.Component{
     if (this.state.route === 'signin'){
       renderElem = <Signin onRouteChange = {this.onRouteChange}/>;
     } 
+    else if (this.state.route === 'register'){
+      renderElem = <Register onRouteChange = {this.onRouteChange}/>;
+    }
     else{
       renderElem = 
         <div>
@@ -83,7 +95,7 @@ class App extends React.Component{
       <div className="App">
         
         <Particles className = 'particles' params = {particleOptions}/>
-        <Navigation onRouteChange = {this.onRouteChange}/>
+        <Navigation onRouteChange = {this.onRouteChange} isSignedIn = {this.state.isSignedIn}/>
         {renderElem}
 
       </div>
