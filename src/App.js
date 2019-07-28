@@ -2,7 +2,8 @@ import React from 'react';
 import Particles from 'react-particles-js';
 import Clarifai from 'clarifai';
 import particleOptions from './components/ParticleOptions/ParticleOptions';
-import Navigation from './components/Navigation/Navigation'
+import Navigation from './components/Navigation/Navigation';
+import Signin from './components/Signin/Signin';
 import Logo from './components/Logo/Logo'
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
@@ -21,7 +22,8 @@ class App extends React.Component{
     this.state = {
       inputString : '',
       imageUrl : '',
-      box : ''
+      box : '',
+      route : 'signin'
     }
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSubmitChange = this.onSubmitChange.bind(this);
@@ -59,16 +61,30 @@ class App extends React.Component{
     
   }
 
+  onRouteChange = (route) => {
+    this.setState({route : route});
+  }
+
   render(){
+    let renderElem;
+    if (this.state.route === 'signin'){
+      renderElem = <Signin onRouteChange = {this.onRouteChange}/>;
+    } 
+    else{
+      renderElem = 
+        <div>
+          <Logo />
+          <Rank />
+          <ImageLinkForm onSearchChange = {this.onSearchChange} onSubmitChange = {this.onSubmitChange}/>
+          <FaceRecognition imageUrl = {this.state.imageUrl} box = {this.state.box}/>
+        </div>
+    }
     return (
       <div className="App">
         
         <Particles className = 'particles' params = {particleOptions}/>
-        <Navigation />
-        <Logo />
-        <Rank />
-        <ImageLinkForm onSearchChange = {this.onSearchChange} onSubmitChange = {this.onSubmitChange}/>
-        <FaceRecognition imageUrl = {this.state.imageUrl} box = {this.state.box}/>
+        <Navigation onRouteChange = {this.onRouteChange}/>
+        {renderElem}
 
       </div>
     );
