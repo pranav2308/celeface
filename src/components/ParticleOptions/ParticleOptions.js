@@ -11,7 +11,7 @@ const particleOptions = {
         value: "#c32f2f",
       },
       size : {
-        value : 15,
+        value : 2,
       }
     }, 
     interactivity : {

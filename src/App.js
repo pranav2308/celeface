@@ -25,11 +25,14 @@ class App extends React.Component{
       imageUrl : '',
       box : '',
       route : 'signin',
-      isSignedIn : false
+      isSignedIn : false,
+      imageStatus : 'empty'
     }
+
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSubmitChange = this.onSubmitChange.bind(this);
     this.onRouteChange = this.onRouteChange.bind(this);
+    this.setImageStatus = this.setImageStatus.bind(this);
   }
   calculateFaceLocation = (data) => {
   const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
@@ -56,8 +59,29 @@ class App extends React.Component{
     this.setState({inputString : event.target.value});
   }
 
+  setImageStatus = (imageStatus) => {
+    this.setState({imageStatus : imageStatus});
+  }
+
+  imageExists = (imageUrl) => {
+    if(imageUrl === ''){
+      this.setImageStatus('empty');
+    }
+    else{
+      let img = new Image();
+      img.onload = function(){
+        this.setImageStatus('valid');
+      }.bind(this);
+      img.onerror = function(){
+        this.setImageStatus('invalid');
+      }.bind(this);
+      img.src = imageUrl;
+    }
+  }
+
   onSubmitChange = (event) => {
     this.setState({imageUrl : this.state.inputString});
+    this.imageExists(this.state.inputString);
     app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputString)
     .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
     .catch(console.log);
@@ -75,11 +99,12 @@ class App extends React.Component{
   }
 
   render(){
+    const { route, imageUrl, box, isSignedIn, imageStatus } = this.state;
     let renderElem;
-    if (this.state.route === 'signin'){
+    if (route === 'signin'){
       renderElem = <Signin onRouteChange = {this.onRouteChange}/>;
     } 
-    else if (this.state.route === 'register'){
+    else if (route === 'register'){
       renderElem = <Register onRouteChange = {this.onRouteChange}/>;
     }
     else{
@@ -88,14 +113,14 @@ class App extends React.Component{
           <Logo />
           <Rank />
           <ImageLinkForm onSearchChange = {this.onSearchChange} onSubmitChange = {this.onSubmitChange}/>
-          <FaceRecognition imageUrl = {this.state.imageUrl} box = {this.state.box}/>
+          <FaceRecognition imageStatus = {imageStatus} imageUrl = {imageUrl} box = {box} />
         </div>
     }
     return (
       <div className="App">
         
         <Particles className = 'particles' params = {particleOptions}/>
-        <Navigation onRouteChange = {this.onRouteChange} isSignedIn = {this.state.isSignedIn}/>
+        <Navigation onRouteChange = {this.onRouteChange} isSignedIn = {isSignedIn}/>
         {renderElem}
 
       </div>
