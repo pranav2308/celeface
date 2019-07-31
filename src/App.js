@@ -34,23 +34,28 @@ class App extends React.Component{
     this.onRouteChange = this.onRouteChange.bind(this);
     this.setImageStatus = this.setImageStatus.bind(this);
   }
+
   calculateFaceLocation = (data) => {
-  const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+  //const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+  const clarifaiFaces = data.outputs[0].data.regions;
   const image = document.getElementById('inputImage');
   const width = Number(image.width);
   const height = Number(image.height);
-  return (
-      {
-        leftCol : clarifaiFace.left_col * width,
-        rightCol  : (1 - clarifaiFace.right_col) * width,
-        topRow : clarifaiFace.top_row * height,
-        bottomRow : (1 - clarifaiFace.bottom_row) * height,
-      }
-    );
+  return clarifaiFaces.map((element) => {
+      const squarePercentages = element.region_info.bounding_box;
+      return (
+        {
+          leftCol : squarePercentages.left_col * width,
+          rightCol  : (1 - squarePercentages.right_col) * width,
+          topRow : squarePercentages.top_row * height,
+          bottomRow : (1 - squarePercentages.bottom_row) * height,
+        }
+      ); 
+    });
   }
 
-  displayFaceBox = (box) => {
-    this.setState({box : box});
+  displayFaceBox = (boxes) => {
+    this.setState({box : boxes});
   }
 
 
