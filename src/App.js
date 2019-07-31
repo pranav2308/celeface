@@ -23,7 +23,7 @@ class App extends React.Component{
     this.state = {
       inputString : '',
       imageUrl : '',
-      box : '',
+      apiResponse : '',
       route : 'signin',
       isSignedIn : false,
       imageStatus : 'empty'
@@ -35,60 +35,35 @@ class App extends React.Component{
     this.setImageStatus = this.setImageStatus.bind(this);
   }
 
-  calculateFaceLocation = (data) => {
-  //const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
-  const clarifaiFaces = data.outputs[0].data.regions;
-  const image = document.getElementById('inputImage');
-  const width = Number(image.width);
-  const height = Number(image.height);
-  return clarifaiFaces.map((element) => {
-      const squarePercentages = element.region_info.bounding_box;
-      return (
-        {
-          leftCol : squarePercentages.left_col * width,
-          rightCol  : (1 - squarePercentages.right_col) * width,
-          topRow : squarePercentages.top_row * height,
-          bottomRow : (1 - squarePercentages.bottom_row) * height,
-        }
-      ); 
-    });
-  }
-
-  displayFaceBox = (boxes) => {
-    this.setState({box : boxes});
-  }
-
-
   onSearchChange = (event) => {
-    console.log(event.target.value);
     this.setState({inputString : event.target.value});
   }
 
-  setImageStatus = (imageStatus) => {
-    this.setState({imageStatus : imageStatus});
-  }
-
-  imageExists = (imageUrl) => {
+  setImageStatus = (imageUrl) => {
     if(imageUrl === ''){
-      this.setImageStatus('empty');
+      this.setState({imageStatus : 'empty'});
     }
     else{
       let img = new Image();
       img.onload = function(){
-        this.setImageStatus('valid');
+        this.setState({imageStatus : 'valid'});
       }.bind(this);
       img.onerror = function(){
-        this.setImageStatus('invalid');
+        this.setState({imageStatus : 'invalid'});
       }.bind(this);
       img.src = imageUrl;
     }
   }
 
   onSubmitChange = (event) => {
-    this.setState({imageUrl : this.state.inputString});
-    this.imageExists(this.state.inputString);
+    this.setState({imageUrl : this.state.inputString,
+                    apiResponse : ''});
+    this.setImageStatus(this.state.inputString);
+    // app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputString)
+    // .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
+    // .catch(console.log);
     app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputString)
-    .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
+    .then(response => this.setState({apiResponse : response}))
     .catch(console.log);
     
   }
@@ -104,7 +79,7 @@ class App extends React.Component{
   }
 
   render(){
-    const { route, imageUrl, box, isSignedIn, imageStatus } = this.state;
+    const { route, imageUrl, apiResponse, isSignedIn, imageStatus } = this.state;
     let renderElem;
     if (route === 'signin'){
       renderElem = <Signin onRouteChange = {this.onRouteChange}/>;
@@ -118,7 +93,7 @@ class App extends React.Component{
           <Logo />
           <Rank />
           <ImageLinkForm onSearchChange = {this.onSearchChange} onSubmitChange = {this.onSubmitChange}/>
-          <FaceRecognition imageStatus = {imageStatus} imageUrl = {imageUrl} box = {box} />
+          <FaceRecognition imageStatus = {imageStatus} imageUrl = {imageUrl} apiResponse = {apiResponse} />
         </div>
     }
     return (
