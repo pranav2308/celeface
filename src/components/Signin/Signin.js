@@ -29,18 +29,23 @@ class Signin extends React.Component{
 			})
 		})
 		.then(response => {
-			if(response.status === 200){
-				this.props.onRouteChange('home');
+			if(response.status === 400){
+				alert("Unable to sign-in. Please check your email and password");
+				return null;
 			}
 			else{
-				alert("Please Check your credentials and try again!");
+				return response.json();
+			}
+		}).then(userData => {
+			if(userData){
+				this.props.onSignedInRouteChange(userData, 'home');
 			}
 		});
 
 	}
 
 	render(){
-		const { onRouteChange } = this.props;
+		const { onSignedOutRouteChange } = this.props;
 	return(
 		<article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw5 shadow-5 center">	
 			<main className="pa4 black-80">
@@ -71,8 +76,8 @@ class Signin extends React.Component{
 				       onClick = {this.onSignInClick} />
 				    </div>
 				    <div className="lh-copy mt3 pointer">
-				      <p onClick = {() => onRouteChange('register')}
-				      className="f6 link dim black db">Register</p>
+				      <p onClick = {() => onSignedOutRouteChange('register')}
+				      className="f6 link dim black db">New here?, try Registering!</p>
 				    </div>
 				</div>
 			</main>

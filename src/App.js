@@ -13,99 +13,113 @@ import './App.css';
 import 'tachyons';
 
 const app = new Clarifai.App({
-  apiKey: 'c3fc1f30ca4844d4a8b43f29578e586e'
+	apiKey: 'c3fc1f30ca4844d4a8b43f29578e586e'
 });
 
 class App extends React.Component{
-  
-  constructor(props){
-    super(props);
-    this.state = {
-      inputString : '',
-      imageUrl : '',
-      apiResponse : '',
-      route : 'signin',
-      isSignedIn : false,
-      imageStatus : 'empty'
-    }
+	
+	constructor(props){
+		super(props);
+		this.state = {
+			inputString : '',
+			imageUrl : '',
+			apiResponse : '',
+			route : 'signin',
+			isSignedIn : false,
+			imageStatus : 'empty',
+			user : {
+				id : "",
+				name : "",
+				email : "",
+				entries : 0,
+				joinDate : ''
+			}
+		}
 
-    this.onSearchChange = this.onSearchChange.bind(this);
-    this.onSubmitChange = this.onSubmitChange.bind(this);
-    this.onRouteChange = this.onRouteChange.bind(this);
-    this.setImageStatus = this.setImageStatus.bind(this);
-  }
+		this.onSearchChange = this.onSearchChange.bind(this);
+		this.onSubmitChange = this.onSubmitChange.bind(this);
+		this.setImageStatus = this.setImageStatus.bind(this);
+	}
 
-  onSearchChange = (event) => {
-    this.setState({inputString : event.target.value});
-  }
+	onSearchChange = (event) => {
+		this.setState({inputString : event.target.value});
+	}
 
-  setImageStatus = (imageUrl) => {
-    if(imageUrl === ''){
-      this.setState({imageStatus : 'empty'});
-    }
-    else{
-      let img = new Image();
-      img.onload = function(){
-        this.setState({imageStatus : 'valid'});
-      }.bind(this);
-      img.onerror = function(){
-        this.setState({imageStatus : 'invalid'});
-      }.bind(this);
-      img.src = imageUrl;
-    }
-  }
+	setImageStatus = (imageUrl) => {
+		if(imageUrl === ''){
+			this.setState({imageStatus : 'empty'});
+		}
+		else{
+			let img = new Image();
+			img.onload = function(){
+				this.setState({imageStatus : 'valid'});
+			}.bind(this);
+			img.onerror = function(){
+				this.setState({imageStatus : 'invalid'});
+			}.bind(this);
+			img.src = imageUrl;
+		}
+	}
 
-  onSubmitChange = (event) => {
-    this.setState({imageUrl : this.state.inputString,
-                    apiResponse : ''});
-    this.setImageStatus(this.state.inputString);
-    // app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputString)
-    // .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
-    // .catch(console.log);
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputString)
-    .then(response => this.setState({apiResponse : response}))
-    .catch(console.log);
-    
-  }
+	onSubmitChange = (event) => {
+		this.setState({imageUrl : this.state.inputString,
+										apiResponse : ''});
+		this.setImageStatus(this.state.inputString);
+		// app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputString)
+		// .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
+		// .catch(console.log);
+		app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputString)
+		.then(response => this.setState({apiResponse : response}))
+		.catch(console.log);
+		
+	}
 
-  onRouteChange = (route) => {
-    if(route === 'home'){
-      this.setState({isSignedIn : true});
-    }
-    else{
-      this.setState({isSignedIn : false}); 
-    }
-    this.setState({route : route});
-  }
+	onSignedInRouteChange = (user, route) => {
+		/*route argument will be only home as of now but can be updated to include more features in future.
+			method can be called from sign-in page (by clicking sign-in) or from register page (by clicking register).*/
+		this.setState({
+			user : user,
+			isSignedIn : true,
+			route : route}); 
+		}
 
-  render(){
-    const { route, imageUrl, apiResponse, isSignedIn, imageStatus } = this.state;
-    let renderElem;
-    if (route === 'signin'){
-      renderElem = <Signin onRouteChange = {this.onRouteChange}/>;
-    } 
-    else if (route === 'register'){
-      renderElem = <Register onRouteChange = {this.onRouteChange}/>;
-    }
-    else{
-      renderElem = 
-        <div>
-          <Logo />
-          <Rank />
-          <ImageLinkForm onSearchChange = {this.onSearchChange} onSubmitChange = {this.onSubmitChange}/>
-          <FaceRecognition imageStatus = {imageStatus} imageUrl = {imageUrl} apiResponse = {apiResponse} />
-        </div>
-    }
-    return (
-      <div className="App">
-        
-        <Particles className = 'particles' params = {particleOptions}/>
-        <Navigation onRouteChange = {this.onRouteChange} isSignedIn = {isSignedIn}/>
-        {renderElem}
+	onSignedOutRouteChange = (route) => {
+		/*route argument can be either sign-in page or register.
+			method can be called from sign-in page, register page or from home page via sign-out 
+			the route can be either to sign-in page or register page*/
+		this.setState({
+			isSignedIn : false,
+			route : route}); 
+	}
 
-      </div>
-    );
-  }
+	render(){
+		const { route, imageUrl, apiResponse, isSignedIn, imageStatus } = this.state;
+		let renderElem;
+		if (route === 'signin'){
+			renderElem = <Signin onSignedInRouteChange = {this.onSignedInRouteChange} onSignedOutRouteChange = {this.onSignedOutRouteChange}/>;
+		} 
+		else if (route === 'register'){
+			renderElem = <Register onSignedInRouteChange = {this.onSignedInRouteChange} onSignedOutRouteChange = {this.onSignedOutRouteChange}/>;
+		}
+		else{
+			renderElem = 
+				<div>
+					<Logo />
+					<Rank userName = {this.state.user.name} userEntries = {this.state.user.entries} />
+					<ImageLinkForm onSearchChange = {this.onSearchChange} onSubmitChange = {this.onSubmitChange}/>
+					<FaceRecognition imageStatus = {imageStatus} imageUrl = {imageUrl} apiResponse = {apiResponse} />
+				</div>
+		}
+		return (
+			<div className="App">
+				
+				<Particles className = 'particles' params = {particleOptions}/>
+				<Navigation onSignedOutRouteChange = {this.onSignedOutRouteChange} isSignedIn = {isSignedIn}/>
+				{renderElem}
+
+			</div>
+		);
+	}
 }
 
 export default App;
