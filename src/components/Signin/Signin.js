@@ -33,7 +33,7 @@ class Signin extends React.Component{
 				this.props.onRouteChange('home');
 			}
 			else{
-				alert("Check your email and password and try again!");
+				alert("Please Check your credentials and try again!");
 			}
 		});
 
