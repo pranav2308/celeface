@@ -52,7 +52,31 @@ class App extends React.Component{
 		else{
 			let img = new Image();
 			img.onload = function(){
+				
+				fetch('http://localhost:3000/image', {
+					method : 'put',
+					headers : {'Content-Type' : 'application/json'},
+					body : JSON.stringify({
+						id : this.state.user.id,
+					})
+				})
+				.then(response => {
+					if(response.status === 400){
+						this.onSignedOutRouteChange('signin');
+						alert('Something went wrong! Please login again');
+						return null;
+					}else{
+						return response.json();
+					}
+				})
+				.then(entries => {
+					if(entries){
+						this.setState({user : Object.assign(this.state.user, {entries : entries})});
+					}
+				})
+
 				this.setState({imageStatus : 'valid'});
+
 			}.bind(this);
 			img.onerror = function(){
 				this.setState({imageStatus : 'invalid'});
@@ -78,6 +102,10 @@ class App extends React.Component{
 		/*route argument will be only home as of now but can be updated to include more features in future.
 			method can be called from sign-in page (by clicking sign-in) or from register page (by clicking register).*/
 		this.setState({
+			inputString : '',
+			imageUrl : '',
+			apiResponse : '',
+			imageStatus : 'empty',
 			user : user,
 			isSignedIn : true,
 			route : route}); 
