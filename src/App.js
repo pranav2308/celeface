@@ -61,12 +61,12 @@ class App extends React.Component{
 					})
 				})
 				.then(response => {
-					if(response.status === 400){
+					if(response.status === 200){
+						return response.json();
+					}else{	//if response status is 406 or 400
 						this.onSignedOutRouteChange('signin');
 						alert('Something went wrong! Please login again');
 						return null;
-					}else{
-						return response.json();
 					}
 				})
 				.then(entries => {
