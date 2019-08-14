@@ -43,12 +43,17 @@ class Register extends React.Component {
 				password : this.state.registerPassword
 				})
 			}).then(response => {
-				if (response.status === 400){
+				if(response.status === 200){
+					return response.json();
+				}
+				else if (response.status === 409){
 					alert("User with same email already exists. You can try signing-in or choose another email for registration");
 					return null;
 				}
 				else{
-					return response.json();
+					alert("Oops! Something went wrong. Please try to register again.");
+					//this.props.onSignedOutRouteChange('register'); This method would not vanish typed content.  
+					return null;
 				}
 			}).then(userData => {
 				if (userData){
