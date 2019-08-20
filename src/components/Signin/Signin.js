@@ -29,12 +29,16 @@ class Signin extends React.Component{
 			})
 		})
 		.then(response => {
-			if(response.status === 400){
+			if(response.status === 200){
+				return response.json();
+			}
+			else if(response.status === 401){
 				alert("Unable to sign-in. Please check your email and password");
 				return null;
 			}
-			else{
-				return response.json();
+			else{ //if the error code is 400
+				alert("Oops! Something went wrong. Please try to sign-in again.");
+				//this.props.onSignedOutRouteChange('signin')
 			}
 		}).then(userData => {
 			if(userData){
