@@ -73,6 +73,8 @@ class App extends React.Component{
 					if(entries){
 						this.setState({user : Object.assign(this.state.user, {entries : entries})});
 					}
+				}).catch(() => {
+					alert("Oops! It seems that you are disconnected. Please check your connection and try to register again");
 				})
 
 				this.setState({imageStatus : 'valid'});

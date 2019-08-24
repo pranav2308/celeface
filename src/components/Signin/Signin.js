@@ -38,12 +38,15 @@ class Signin extends React.Component{
 			}
 			else{ //if the error code is 400
 				alert("Oops! Something went wrong. Please try to sign-in again.");
+				return null;
 				//this.props.onSignedOutRouteChange('signin')
 			}
 		}).then(userData => {
 			if(userData){
 				this.props.onSignedInRouteChange(userData, 'home');
 			}
+		}).catch(() => {
+			alert("Oops! It seems that you are disconnected. Please check your connection and try to signin again");
 		});
 
 	}
