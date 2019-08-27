@@ -16,6 +16,15 @@ const app = new Clarifai.App({
 	apiKey: 'c3fc1f30ca4844d4a8b43f29578e586e'
 });
 
+const emptyUser = 
+	{
+		id : "",
+		name : "",
+		email : "",
+		entries : 0,
+		joinDate : ''
+	}
+
 class App extends React.Component{
 	
 	constructor(props){
@@ -27,13 +36,7 @@ class App extends React.Component{
 			route : 'signin',
 			isSignedIn : false,
 			imageStatus : 'empty',
-			user : {
-				id : "",
-				name : "",
-				email : "",
-				entries : 0,
-				joinDate : ''
-			}
+			user : emptyUser 
 		}
 
 		this.onSearchChange = this.onSearchChange.bind(this);
@@ -119,7 +122,12 @@ class App extends React.Component{
 			the route can be either to sign-in page or register page*/
 		this.setState({
 			isSignedIn : false,
-			route : route}); 
+			route : route,
+			user : emptyUser,
+			inputString : '',
+			imageUrl : '',
+			apiResponse : '',
+			imageStatus : 'empty'}); 
 	}
 
 	render(){
