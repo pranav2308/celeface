@@ -74,13 +74,13 @@ class App extends React.Component{
 				})
 				.then(entries => {
 					if(entries){
-						this.setState({user : Object.assign(this.state.user, {entries : entries})});
+						this.setState({user : Object.assign(this.state.user, {entries : entries}),
+										imageStatus : 'valid'});
 					}
 				}).catch(() => {
-					alert("Oops! It seems that you are disconnected. Please check your connection and try to register again");
+					this.onSignedOutRouteChange('signin');
+					alert("Oops! It seems that you are disconnected. Please check your connection and try to sign-in again");
 				})
-
-				this.setState({imageStatus : 'valid'});
 
 			}.bind(this);
 			img.onerror = function(){
@@ -98,7 +98,8 @@ class App extends React.Component{
 		// .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
 		// .catch(console.log);
 		app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputString)
-		.then(response => this.setState({apiResponse : response}))
+		.then(response => {
+			this.setState({apiResponse : response});})
 		.catch(console.log);
 		
 	}

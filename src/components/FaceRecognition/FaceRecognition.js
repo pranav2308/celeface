@@ -2,8 +2,8 @@ import React from 'react';
 import './FaceRecognition.css';
  
 
-const calculateFaceLocations = (apiResponse) => {
-  const clarifaiFaces = apiResponse.outputs[0].data.regions;
+const calculateFaceLocations = (clarifaiFaces) => {
+  
   let width, height;
   
   try{
@@ -39,7 +39,11 @@ const FaceRecognition = ({imageStatus, imageUrl, apiResponse}) => {
 	if (imageStatus === 'valid'){
 		
 		if (apiResponse !== ''){
-			faceBoxElement = calculateFaceLocations(apiResponse).map(drawFaceBox);
+			const clarifaiFaces = apiResponse.outputs[0].data.regions;
+			if(clarifaiFaces){
+				faceBoxElement = calculateFaceLocations(clarifaiFaces).map(drawFaceBox);	
+			}
+			
 		}
 		renderElement = <div className = 'absolute mt2'>
 						<img id = "inputImage" alt = 'Input image' src = {imageUrl} width = '500px' height = 'auto'/>
