@@ -2,11 +2,11 @@ import React from 'react';
  
 
 
-const Rank = ({userName, userEntries}) => {
+const Rank = ({userFirstName, userLastName, userEntries}) => {
 	return(
 	<div>
 		<div className = 'white f3'>
-			{userName.concat(', your current rank is.....')}
+			{userFirstName.concat(' ',userLastName,', your current image entries is/are.....')}
 		</div>
 		<div className = 'white f1'>
 			{userEntries}

@@ -14,10 +14,12 @@ import 'tachyons';
 const emptyUser = 
 	{
 		id : "",
-		name : "",
+		firstName : "",
+		lastName : "",
 		email : "",
+		country : "",
 		entries : 0,
-		joinDate : ''
+		joinDate : ""
 	}
 
 class App extends React.Component{
@@ -118,14 +120,7 @@ class App extends React.Component{
 		this.setState({imageUrl : this.state.inputString,
 										apiResponse : ''});
 		this.setImageStatus(this.state.inputString);
-		// app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputString)
-		// .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
-		// .catch(console.log);
-		// app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputString)
-		// .then(response => {
-		// 	console.log(response.status);
-		// 	this.setState({apiResponse : response});})
-		// .catch(response => console.log(response.status));
+		
 		this.callClarifaiFaceDetect(this.state.inputString);
 
 		
@@ -134,15 +129,25 @@ class App extends React.Component{
 	onSignedInRouteChange = (user, route) => {
 		/*route argument will be only home as of now but can be updated to include more features in future.
 			method can be called from sign-in page (by clicking sign-in) or from register page (by clicking register).*/
+		const newUser = {
+			id : user.id,
+			firstName : user.firstname,
+			lastName : user.lastname,
+			email : user.email,
+			country : user.country,
+			entries : user.entries,
+			joinDate : user.joindate
+		}
 		this.setState({
 			inputString : '',
 			imageUrl : '',
 			apiResponse : '',
 			imageStatus : 'empty',
-			user : user,
+			user : newUser,
 			isSignedIn : true,
 			route : route}); 
 		}
+
 
 	onSignedOutRouteChange = (route) => {
 		/*route argument can be either sign-in page or register.
@@ -171,7 +176,7 @@ class App extends React.Component{
 			renderElem = 
 				<div>
 					<Logo />
-					<Rank userName = {this.state.user.name} userEntries = {this.state.user.entries} />
+					<Rank userFirstName = {this.state.user.firstName} userLastName = {this.state.user.lastName} userEntries = {this.state.user.entries} />
 					<ImageLinkForm onSearchChange = {this.onSearchChange} onSubmitChange = {this.onSubmitChange}/>
 					<FaceRecognition imageStatus = {imageStatus} imageUrl = {imageUrl} apiResponse = {apiResponse} />
 				</div>

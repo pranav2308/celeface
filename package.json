@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "react": "^16.8.6",
+    "react-country-region-selector": "^1.4.4",
     "react-dom": "^16.8.6",
     "react-particles-js": "^2.7.0",
     "react-scripts": "3.0.1",

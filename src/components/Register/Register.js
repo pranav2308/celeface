@@ -1,20 +1,26 @@
 import React from 'react';
- 
+import { CountryDropdown } from 'react-country-region-selector'; 
 
 
-class Register extends React.Component {
+class Register extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			registerName : '',
+			registerFirstName : '',
+			registerLastName : '',
 			registerEmail : '',
 			registerPassword : '',
-			registerReTypePassword : ''
+			registerReTypePassword : '',
+			registerCountry : "United States"
 		}
 	}
 
-	onRegisterNameChange = (event) => {
-		this.setState({registerName : event.target.value});
+	onRegisterFirstNameChange = (event) => {
+		this.setState({registerFirstName : event.target.value});
+	}
+
+	onRegisterLastNameChange = (event) => {
+		this.setState({registerLastName : event.target.value});
 	}
 
 	onRegisterEmailchange = (event) => {
@@ -29,6 +35,10 @@ class Register extends React.Component {
 		this.setState({registerReTypePassword : event.target.value});
 	}
 
+	onRegisterCountryChange = (value) => {
+		this.setState({registerCountry : value});
+	}
+
 	onRegisterClick = () => {
 		if(this.state.registerPassword !== this.state.registerReTypePassword){
 			alert("Your password and re-typed password does not match. Please register again");
@@ -38,9 +48,11 @@ class Register extends React.Component {
 			method : 'post',
 			headers : {'Content-Type' : 'application/json'},
 			body : JSON.stringify({
-				name : this.state.registerName,
+				firstName : this.state.registerFirstName,
+				lastName : this.state.registerLastName,
 				email : this.state.registerEmail,
-				password : this.state.registerPassword
+				password : this.state.registerPassword,
+				country : this.state.registerCountry
 				})
 			}).then(response => {
 				if(response.status === 200){
@@ -59,7 +71,7 @@ class Register extends React.Component {
 				if (userData){
 					this.props.onSignedInRouteChange(userData, 'home');
 				}
-			}).catch(() => {
+			}).catch((error) => {
 				alert("Oops! It seems that you are disconnected. Please check your connection image entry can be updated");
 			});	
 		}
@@ -75,12 +87,20 @@ class Register extends React.Component {
 					    <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
 					    	<legend className="f2 fw6 ph0 mh0">Register</legend>
 				      		<div className="mt3">
-					        	<label className="db fw6 lh-copy f6" htmlFor="email-address">Name</label>
+					        	<label className="db fw6 lh-copy f6" htmlFor="email-address">First Name</label>
 					        	<input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
 					        	type="name" 
 					        	name="name"  
 					        	id="email-address" 
-					        	onChange = {this.onRegisterNameChange}/>
+					        	onChange = {this.onRegisterFirstNameChange} required/>
+				      		</div>
+				      		<div className="mt3">
+					        	<label className="db fw6 lh-copy f6" htmlFor="email-address">Last Name</label>
+					        	<input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
+					        	type="name" 
+					        	name="name"  
+					        	id="email-address" 
+					        	onChange = {this.onRegisterLastNameChange} required/>
 				      		</div>
 				      		<div className="mt3">
 					        	<label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
@@ -88,7 +108,8 @@ class Register extends React.Component {
 					        	type="email" 
 					        	name="email-address"  
 					        	id="email-address" 
-					        	onChange = {this.onRegisterEmailchange}/>
+					        	data-parse = "lowercase"
+					        	onChange = {this.onRegisterEmailchange} required/>
 				      		</div>
 					        <div className="mv3">
 					        	<label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
@@ -96,7 +117,7 @@ class Register extends React.Component {
 					        	type="password" 
 					        	name="password"  
 					        	id="password" 
-					        	onChange = {this.onRegisterPasswordChange}/>
+					        	onChange = {this.onRegisterPasswordChange} required/>
 					      	</div>
 					      	<div className="mv3">
 					        	<label className="db fw6 lh-copy f6" htmlFor="password">Re-type Password</label>
@@ -104,8 +125,18 @@ class Register extends React.Component {
 					        	type="password" 
 					        	name="password"  
 					        	id="reTypePassword"
-					        	onChange = {this.onRegisterReTypePasswordChange} />
+					        	onChange = {this.onRegisterReTypePasswordChange} required/>
 					      	</div>
+					      	<div className="mt3">
+				      			<label className="db fw6 lh-copy f6" htmlFor="email-address">Country</label>
+				      			<CountryDropdown 
+				      			className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+				      			name = "name" 
+				      			id = "email-address"
+				      			defaultOptionLabel = "United States"
+				      			value = {this.state.registerCountry}
+				      			onChange = {this.onRegisterCountryChange}/>
+				      		</div>
 					    </fieldset>
 					    <div className="">
 					      <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
