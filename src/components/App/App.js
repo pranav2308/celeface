@@ -1,6 +1,5 @@
 import React from 'react';
 import Particles from 'react-particles-js';
-import Clarifai from 'clarifai';
 import particleOptions from '../ParticleOptions/ParticleOptions';
 import Navigation from '../Navigation/Navigation';
 import Signin from '../Signin/Signin';
@@ -11,10 +10,6 @@ import FaceRecognition from '../FaceRecognition/FaceRecognition';
 import Rank from '../Rank/Rank';
 import './App.css';
 import 'tachyons';
-
-const app = new Clarifai.App({
-	apiKey: 'c3fc1f30ca4844d4a8b43f29578e586e'
-});
 
 const emptyUser = 
 	{
@@ -90,6 +85,35 @@ class App extends React.Component{
 		}
 	}
 
+	callClarifaiFaceDetect = (imageUrl) => {
+		fetch('http://localhost:3000/faces', {
+			method : 'post',
+			headers : {'Content-Type' : 'application/json'},
+			body : JSON.stringify({
+				imageUrl : imageUrl,
+			})
+		})
+		.then(response => {
+			if(response.status === 200){
+				return response.json();
+			}else if(response.status === 500 || response.status === 400){
+				alert("There seems to be some problem with API request. Please contact the administrator regarding this");
+				return null;
+			}else{//if the status code is 406
+				return null;
+			}
+		})
+		.then(apiResponse => {
+			if(apiResponse){
+				this.setState({apiResponse : apiResponse});	
+			}
+		})
+		.catch(() => {
+			this.onSignedOutRouteChange('signin');
+			alert("Oops! It seems that you are disconnected. Please check your connection and try to sign-in again");
+		});
+	}
+
 	onSubmitChange = (event) => {
 		this.setState({imageUrl : this.state.inputString,
 										apiResponse : ''});
@@ -97,10 +121,13 @@ class App extends React.Component{
 		// app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputString)
 		// .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
 		// .catch(console.log);
-		app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputString)
-		.then(response => {
-			this.setState({apiResponse : response});})
-		.catch(console.log);
+		// app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.inputString)
+		// .then(response => {
+		// 	console.log(response.status);
+		// 	this.setState({apiResponse : response});})
+		// .catch(response => console.log(response.status));
+		this.callClarifaiFaceDetect(this.state.inputString);
+
 		
 	}
 
