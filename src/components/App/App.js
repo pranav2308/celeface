@@ -6,6 +6,7 @@ import Signin from '../Signin/Signin';
 import Register from '../Register/Register';
 import Logo from '../Logo/Logo'
 import ImageLinkForm from '../ImageLinkForm/ImageLinkForm';
+import LeaderBoard from '../LeaderBoard/LeaderBoard';
 import FaceRecognition from '../FaceRecognition/FaceRecognition';
 import Rank from '../Rank/Rank';
 import './App.css';
@@ -33,7 +34,8 @@ class App extends React.Component{
 			route : 'signin',
 			isSignedIn : false,
 			imageStatus : 'empty',
-			user : emptyUser 
+			user : emptyUser,
+			leaders : [] 
 		}
 
 		this.onSearchChange = this.onSearchChange.bind(this);
@@ -126,6 +128,28 @@ class App extends React.Component{
 		this.callClarifaiFaceDetect(this.state.inputString);	
 	}
 
+	fetchLeaderBoard = () => {
+		fetch('http://localhost:3000/leaderboard')
+		.then(response => {
+			if(response.status === 200){
+				return response.json();
+			}
+			else{ //if response status is 400
+				return null;
+			}
+		})
+		.then(data => {
+			if(data){
+				this.setState({ leaders : data });
+			}
+			else{
+				alert('It seems server has lost connection with database. Please try leaderboard after some time');
+				this.onSignedInRouteChange('home');
+			}
+		})	
+	}
+
+
 	loadUser = (user) => {
 		/*route argument will be only home as of now but can be updated to include more features in future.
 			method can be called from sign-in page (by clicking sign-in) or from register page (by clicking register).*/
@@ -176,7 +200,7 @@ class App extends React.Component{
 			renderElem = <Register loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange}/>;
 		}
 		else if (route === 'leaderboard'){
-			renderElem = '';
+			renderElem = <LeaderBoard  leaders = {this.state.leaders}/>;
 		}
 		else{
 			renderElem = 
@@ -191,7 +215,7 @@ class App extends React.Component{
 			<div className="App">
 				
 				<Particles className = 'particles' params = {particleOptions}/>
-				<Navigation onSignedOutRouteChange = {this.onSignedOutRouteChange} onSignedInRouteChange = {this.onSignedInRouteChange} isSignedIn = {isSignedIn}/>
+				<Navigation onSignedOutRouteChange = {this.onSignedOutRouteChange} onSignedInRouteChange = {this.onSignedInRouteChange} fetchLeaderBoard = {this.fetchLeaderBoard} isSignedIn = {isSignedIn}/>
 				{renderElem}
 
 			</div>
