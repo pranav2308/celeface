@@ -1,12 +1,18 @@
 import React from 'react';
 
 
-const Navigation = ({onSignedOutRouteChange, isSignedIn}) => {
+const Navigation = ({ onSignedOutRouteChange, onSignedInRouteChange, isSignedIn }) => {
 	if (isSignedIn){
 		return(
 			<nav style = {{display : 'flex', justifyContent : 'flex-end'}} >
+
 				<p className = 'f3 black link dim underline pa3 pointer'
-			onClick = {() => onSignedOutRouteChange('signin')}>Sign Out</p>;
+			onClick = {() => onSignedInRouteChange('home')}>Home</p>
+				<p className = 'f3 black link dim underline pa3 pointer'
+			onClick = {() => onSignedInRouteChange('leaderboard')}>Leader Board</p>
+				<p className = 'f3 black link dim underline pa3 pointer'
+			onClick = {() => onSignedOutRouteChange('signin')}>Sign Out</p>
+
 			</nav>
 		);
 	}

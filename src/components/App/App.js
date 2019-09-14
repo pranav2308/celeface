@@ -123,12 +123,10 @@ class App extends React.Component{
 										apiResponse : ''});
 		this.setImageStatus(this.state.inputString);
 		
-		this.callClarifaiFaceDetect(this.state.inputString);
-
-		
+		this.callClarifaiFaceDetect(this.state.inputString);	
 	}
 
-	onSignedInRouteChange = (user, route) => {
+	loadUser = (user) => {
 		/*route argument will be only home as of now but can be updated to include more features in future.
 			method can be called from sign-in page (by clicking sign-in) or from register page (by clicking register).*/
 		const newUser = {
@@ -147,9 +145,12 @@ class App extends React.Component{
 			imageStatus : 'empty',
 			user : newUser,
 			isSignedIn : true,
-			route : route}); 
-		}
+			route : 'home'}); 
+	}
 
+	onSignedInRouteChange = (route) => {
+		this.setState({route : route});
+	}
 
 	onSignedOutRouteChange = (route) => {
 		/*route argument can be either sign-in page or register.
@@ -169,10 +170,13 @@ class App extends React.Component{
 		const { route, imageUrl, apiResponse, isSignedIn, imageStatus } = this.state;
 		let renderElem;
 		if (route === 'signin'){
-			renderElem = <Signin onSignedInRouteChange = {this.onSignedInRouteChange} onSignedOutRouteChange = {this.onSignedOutRouteChange}/>;
+			renderElem = <Signin loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange}/>;
 		} 
 		else if (route === 'register'){
-			renderElem = <Register onSignedInRouteChange = {this.onSignedInRouteChange} onSignedOutRouteChange = {this.onSignedOutRouteChange}/>;
+			renderElem = <Register loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange}/>;
+		}
+		else if (route === 'leaderboard'){
+			renderElem = '';
 		}
 		else{
 			renderElem = 
@@ -187,7 +191,7 @@ class App extends React.Component{
 			<div className="App">
 				
 				<Particles className = 'particles' params = {particleOptions}/>
-				<Navigation onSignedOutRouteChange = {this.onSignedOutRouteChange} isSignedIn = {isSignedIn}/>
+				<Navigation onSignedOutRouteChange = {this.onSignedOutRouteChange} onSignedInRouteChange = {this.onSignedInRouteChange} isSignedIn = {isSignedIn}/>
 				{renderElem}
 
 			</div>

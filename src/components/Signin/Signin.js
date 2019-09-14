@@ -43,7 +43,7 @@ class Signin extends React.Component{
 			}
 		}).then(userData => {
 			if(userData){
-				this.props.onSignedInRouteChange(userData, 'home');
+				this.props.loadUser(userData);
 			}
 		}).catch(() => {
 			alert("Oops! It seems that you are disconnected. Please check your connection and try to signin again");

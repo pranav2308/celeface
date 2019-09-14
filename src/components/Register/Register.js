@@ -69,7 +69,7 @@ class Register extends React.Component{
 				}
 			}).then(userData => {
 				if (userData){
-					this.props.onSignedInRouteChange(userData, 'home');
+					this.props.loadUser(userData);
 				}
 			}).catch((error) => {
 				alert("Oops! It seems that you are disconnected. Please check your connection image entry can be updated");
