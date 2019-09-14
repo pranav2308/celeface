@@ -6,7 +6,7 @@ const Rank = ({userFirstName, userLastName, userEntries}) => {
 	return(
 	<div>
 		<div className = 'white f3'>
-			{userFirstName.concat(' ',userLastName,', your current image entries is/are.....')}
+			{userFirstName.concat(' ',userLastName,', your current image entries are.....')}
 		</div>
 		<div className = 'white f1'>
 			{userEntries}

@@ -58,6 +58,8 @@ class App extends React.Component{
 					headers : {'Content-Type' : 'application/json'},
 					body : JSON.stringify({
 						id : this.state.user.id,
+						imageUrl : imageUrl,
+						email : this.state.user.email
 					})
 				})
 				.then(response => {
