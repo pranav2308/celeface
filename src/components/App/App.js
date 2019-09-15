@@ -7,7 +7,8 @@ import Register from '../Register/Register';
 import Logo from '../Logo/Logo'
 import ImageLinkForm from '../ImageLinkForm/ImageLinkForm';
 import LeaderBoard from '../LeaderBoard/LeaderBoard';
-import FaceRecognition from '../FaceRecognition/FaceRecognition';
+import FaceDetection from '../FaceDetection/FaceDetection';
+import CelebrityDetection from '../CelebrityDetection/CelebrityDetection';
 import Rank from '../Rank/Rank';
 import './App.css';
 import 'tachyons';
@@ -32,15 +33,12 @@ class App extends React.Component{
 			imageUrl : '',
 			apiResponse : '',
 			route : 'signin',
+			homeMode : '',
 			isSignedIn : false,
 			imageStatus : 'empty',
 			user : emptyUser,
 			leaders : [] 
 		}
-
-		this.onSearchChange = this.onSearchChange.bind(this);
-		this.onSubmitChange = this.onSubmitChange.bind(this);
-		this.setImageStatus = this.setImageStatus.bind(this);
 	}
 
 	onSearchChange = (event) => {
@@ -120,12 +118,53 @@ class App extends React.Component{
 		});
 	}
 
-	onSubmitChange = (event) => {
+	callClarifaiCelebrityDetect = (imageUrl) => {
+		fetch('http://localhost:3000/celebrity', {
+			method : 'post',
+			headers : {'Content-Type' : 'application/json'},
+			body : JSON.stringify({
+				imageUrl : imageUrl,
+			})
+		})
+		.then(response => {
+			if(response.status === 200){
+				return response.json();
+			}
+			else if(response.status === 500 || response.status === 400){
+				alert("There seems to be some problem with API request. Please contact the administrator regarding this");
+				return null;
+			}else{//if the status code is 406
+				return null;
+			}
+		})
+		.then(apiResponse => {
+			if(apiResponse){
+				this.setState({ apiResponse : apiResponse });
+			}
+		})
+		.catch(() => {
+			this.onSignedOutRouteChange('signin');
+			alert("Oops! It seems that you are disconnected. Please check your connection and try to sign-in again");
+		});
+	}
+
+	onFacesButtonSubmitChange = (event) => {
 		this.setState({imageUrl : this.state.inputString,
-										apiResponse : ''});
+									homeMode : 'FaceDetection',
+									apiResponse : ''});
 		this.setImageStatus(this.state.inputString);
 		
 		this.callClarifaiFaceDetect(this.state.inputString);	
+	}
+
+	onCelebrityButtonSubmitChange = (event) => {
+		this.setState({imageUrl : this.state.inputString,
+									homeMode : 'CelebrityDetection',
+									apiResponse : ''});
+
+		this.setImageStatus(this.state.inputString);
+		this.callClarifaiCelebrityDetect(this.state.inputString);
+
 	}
 
 	fetchLeaderBoard = () => {
@@ -169,7 +208,8 @@ class App extends React.Component{
 			imageStatus : 'empty',
 			user : newUser,
 			isSignedIn : true,
-			route : 'home'}); 
+			route : 'home', 
+			homeMode : ''}); 
 	}
 
 	onSignedInRouteChange = (route) => {
@@ -183,6 +223,7 @@ class App extends React.Component{
 		this.setState({
 			isSignedIn : false,
 			route : route,
+			homeMode : '',
 			user : emptyUser,
 			inputString : '',
 			imageUrl : '',
@@ -192,6 +233,7 @@ class App extends React.Component{
 
 	render(){
 		const { route, imageUrl, apiResponse, isSignedIn, imageStatus } = this.state;
+
 		let renderElem;
 		if (route === 'signin'){
 			renderElem = <Signin loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange}/>;
@@ -203,12 +245,19 @@ class App extends React.Component{
 			renderElem = <LeaderBoard  leaders = {this.state.leaders}/>;
 		}
 		else{
+			let apiElement;
+			if(this.state.homeMode === 'FaceDetection'){
+				apiElement = <FaceDetection imageStatus = {imageStatus} imageUrl = {imageUrl} apiResponse = {apiResponse} />;
+			}
+			else if (this.state.homeMode === 'CelebrityDetection'){
+				apiElement = <CelebrityDetection imageStatus = {imageStatus} imageUrl = {imageUrl} apiResponse = {apiResponse}/>
+			}
 			renderElem = 
 				<div>
 					<Logo />
 					<Rank userFirstName = {this.state.user.firstName} userLastName = {this.state.user.lastName} userEntries = {this.state.user.entries} />
-					<ImageLinkForm onSearchChange = {this.onSearchChange} onSubmitChange = {this.onSubmitChange}/>
-					<FaceRecognition imageStatus = {imageStatus} imageUrl = {imageUrl} apiResponse = {apiResponse} />
+					<ImageLinkForm inputString = {this.state.inputString} onSearchChange = {this.onSearchChange} onFacesButtonSubmitChange = {this.onFacesButtonSubmitChange} onCelebrityButtonSubmitChange = {this.onCelebrityButtonSubmitChange}/>
+					{apiElement}		
 				</div>
 		}
 		return (

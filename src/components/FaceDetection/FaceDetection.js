@@ -1,5 +1,5 @@
 import React from 'react';
-import './FaceRecognition.css';
+import './FaceDetection.css';
  
 
 const calculateFaceLocations = (clarifaiFaces) => {
@@ -34,14 +34,15 @@ const drawFaceBox = (box, index) => {
 }
 
 
-const FaceRecognition = ({imageStatus, imageUrl, apiResponse}) => {
+const FaceDetection = ({ imageStatus, imageUrl, apiResponse }) => {
 	let faceBoxElement, renderElement;
 	if (imageStatus === 'valid'){
 		
 		if (apiResponse !== ''){
+
 			const clarifaiFaces = apiResponse.outputs[0].data.regions;
 			if(clarifaiFaces){
-				faceBoxElement = calculateFaceLocations(clarifaiFaces).map(drawFaceBox);	
+				faceBoxElement = calculateFaceLocations(clarifaiFaces).map(drawFaceBox);
 			}
 			
 		}
@@ -60,4 +61,4 @@ const FaceRecognition = ({imageStatus, imageUrl, apiResponse}) => {
 	);
 }
 
-export default FaceRecognition;
+export default FaceDetection;
