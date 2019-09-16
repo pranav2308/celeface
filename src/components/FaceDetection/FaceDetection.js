@@ -42,12 +42,13 @@ const FaceDetection = ({ imageStatus, imageUrl, apiResponse }) => {
 
 			const clarifaiFaces = apiResponse.outputs[0].data.regions;
 			if(clarifaiFaces){
+				console.log(calculateFaceLocations(clarifaiFaces));
 				faceBoxElement = calculateFaceLocations(clarifaiFaces).map(drawFaceBox);
 			}
 			
 		}
 		renderElement = <div className = 'absolute mt2'>
-						<img id = "inputImage" alt = 'Input image' src = {imageUrl} width = '500px' height = 'auto'/>
+						<img id = "inputImage" alt = 'Input image' src = {imageUrl} width = '500px' height = 'auto' style = {{ border: '3px solid #021a40' }}/>
 						{faceBoxElement}
 					</div>;
 	}
