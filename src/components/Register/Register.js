@@ -1,6 +1,47 @@
 import React from 'react';
 import { CountryDropdown } from 'react-country-region-selector'; 
 
+const isNameValid = (name) => {
+	return (Boolean(name.length));
+} 
+
+const isEmailValid = (email) => {
+	let re = /^(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/;
+  	return re.test(email);
+}
+
+const isPasswordValid = (password) => {
+	let re = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+	return re.test(password);
+}
+
+const isPasswordMatching = (password, reTypePassword) => {
+	return (password === reTypePassword);
+}
+
+const isValidRegistrationForm = (entries) => {
+	if(!isNameValid(entries.registerFirstName)){
+		alert('First name cannot be empty!');
+		return false;
+	}
+	else if(!isNameValid(entries.registerLastName)){
+		alert('Last name cannot be empty!');
+		return false;	
+	}
+	else if(!isEmailValid(entries.registerEmail)){
+		alert('Email address entered is not valid');
+		return false;	
+	}
+	else if(!isPasswordValid(entries.registerPassword)){
+		alert('Password entered does not conform to password formatting rules');
+		return false;
+	}
+	else if(!isPasswordMatching(entries.registerPassword, entries.registerReTypePassword)){
+		alert("Your password and re-typed password does not match.");
+		return false;
+	}
+	return true;
+}
 
 class Register extends React.Component{
 	constructor(props){
@@ -40,10 +81,8 @@ class Register extends React.Component{
 	}
 
 	onRegisterClick = () => {
-		if(this.state.registerPassword !== this.state.registerReTypePassword){
-			alert("Your password and re-typed password does not match. Please register again");
-		}
-		else{
+		
+		if(isValidRegistrationForm(this.state)){
 			fetch('http://localhost:3000/register', {
 			method : 'post',
 			headers : {'Content-Type' : 'application/json'},
@@ -112,7 +151,7 @@ class Register extends React.Component{
 					        	onChange = {this.onRegisterEmailchange} required/>
 				      		</div>
 					        <div className="mv3">
-					        	<label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
+					        	<label className="db fw6 lh-copy f6" htmlFor="password">Password <span className = "i fw1">(Must have : 1 lowercase, 1 uppercase, 1 digit, 1 special character and minimum length of 8)</span></label>
 					        	<input className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
 					        	type="password" 
 					        	name="password"  
