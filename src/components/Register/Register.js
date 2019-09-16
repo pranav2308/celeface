@@ -83,7 +83,7 @@ class Register extends React.Component{
 	onRegisterClick = () => {
 		
 		if(isValidRegistrationForm(this.state)){
-			fetch('http://localhost:3000/register', {
+			fetch('https://celeface-server.herokuapp.com/register', {
 			method : 'post',
 			headers : {'Content-Type' : 'application/json'},
 			body : JSON.stringify({

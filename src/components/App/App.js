@@ -53,7 +53,7 @@ class App extends React.Component{
 			let img = new Image();
 			img.onload = function(){
 				
-				fetch('http://localhost:3000/image', {
+				fetch('https://celeface-server.herokuapp.com/image', {
 					method : 'put',
 					headers : {'Content-Type' : 'application/json'},
 					body : JSON.stringify({
@@ -90,7 +90,7 @@ class App extends React.Component{
 	}
 
 	callClarifaiFaceDetect = (imageUrl) => {
-		fetch('http://localhost:3000/faces', {
+		fetch('https://celeface-server.herokuapp.com/faces', {
 			method : 'post',
 			headers : {'Content-Type' : 'application/json'},
 			body : JSON.stringify({
@@ -119,7 +119,7 @@ class App extends React.Component{
 	}
 
 	callClarifaiCelebrityDetect = (imageUrl) => {
-		fetch('http://localhost:3000/celebrity', {
+		fetch('https://celeface-server.herokuapp.com/celebrity', {
 			method : 'post',
 			headers : {'Content-Type' : 'application/json'},
 			body : JSON.stringify({
@@ -168,7 +168,7 @@ class App extends React.Component{
 	}
 
 	fetchLeaderBoard = () => {
-		fetch('http://localhost:3000/leaderboard')
+		fetch('https://celeface-server.herokuapp.com/leaderboard')
 		.then(response => {
 			if(response.status === 200){
 				return response.json();
