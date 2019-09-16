@@ -101,6 +101,10 @@ class Register extends React.Component{
 					alert("User with same email already exists. You can try signing-in or choose another email for registration");
 					return null;
 				}
+				else if(response.status === 406){ //in case front-end does not catch the form validation. 
+					alert("Please check the entered credentials and register again")
+					return null;
+				}
 				else{ //if the error code is 400
 					alert("Oops! Something went wrong. Please try to register again.");
 					//this.props.onSignedOutRouteChange('register'); This method would not vanish typed content.  
