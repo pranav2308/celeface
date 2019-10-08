@@ -1,9 +1,9 @@
 import React from 'react';
-import './FaceRecognition.css';
+import './FaceDetection.css';
  
 
-const calculateFaceLocations = (apiResponse) => {
-  const clarifaiFaces = apiResponse.outputs[0].data.regions;
+const calculateFaceLocations = (clarifaiFaces) => {
+  
   let width, height;
   
   try{
@@ -34,15 +34,21 @@ const drawFaceBox = (box, index) => {
 }
 
 
-const FaceRecognition = ({imageStatus, imageUrl, apiResponse}) => {
+const FaceDetection = ({ imageStatus, imageUrl, apiResponse }) => {
 	let faceBoxElement, renderElement;
 	if (imageStatus === 'valid'){
 		
 		if (apiResponse !== ''){
-			faceBoxElement = calculateFaceLocations(apiResponse).map(drawFaceBox);
+
+			const clarifaiFaces = apiResponse.outputs[0].data.regions;
+			if(clarifaiFaces){
+				console.log(calculateFaceLocations(clarifaiFaces));
+				faceBoxElement = calculateFaceLocations(clarifaiFaces).map(drawFaceBox);
+			}
+			
 		}
 		renderElement = <div className = 'absolute mt2'>
-						<img id = "inputImage" alt = 'Input image' src = {imageUrl} width = '500px' height = 'auto'/>
+						<img id = "inputImage" alt = 'Input image' src = {imageUrl} width = '500px' height = 'auto' style = {{ border: '3px solid #021a40' }}/>
 						{faceBoxElement}
 					</div>;
 	}
@@ -56,4 +62,4 @@ const FaceRecognition = ({imageStatus, imageUrl, apiResponse}) => {
 	);
 }
 
-export default FaceRecognition;
+export default FaceDetection;
