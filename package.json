@@ -3,15 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
     "clarifai": "^2.9.1",
-=======
->>>>>>> c60e596de580c7256159bacbfdffbb2477e2ab87
     "react": "^16.8.6",
     "react-country-region-selector": "^1.4.4",
     "react-dom": "^16.8.6",
     "react-particles-js": "^2.7.0",
-    "react-scripts": "3.0.1",
+    "react-scripts": "^3.3.1",
     "react-tilt": "^0.1.4",
     "tachyons": "^4.11.1"
   },
