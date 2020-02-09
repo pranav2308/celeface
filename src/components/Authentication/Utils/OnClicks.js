@@ -24,7 +24,8 @@ function onSignInClick() {
 		}
 	}).then(userData => {
 		if(userData){
-			this.props.loadUser(userData);
+			const { replace } = this.props.history;
+			this.props.loadUser(userData, replace);
 		}
 	}).catch(() => {
 		alert("Oops! It seems that you are disconnected. Please check your connection and try to signin again");
@@ -64,7 +65,8 @@ function onRegisterClick(){
 			}
 		}).then(userData => {
 			if (userData){
-				this.props.loadUser(userData);
+				const { replace } = this.props.history;
+				this.props.loadUser(userData, replace);
 			}
 		}).catch((error) => {
 			alert("Oops! It seems that you are disconnected. Please check your connection image entry can be updated");

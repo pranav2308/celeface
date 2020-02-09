@@ -9,10 +9,10 @@ const Navigation = ({ onSignedOutRouteChange, onSignedInRouteChange, fetchLeader
 			<nav style = {{display : 'flex', justifyContent : 'flex-end'}} >
 
 				<p className = 'f3 black link dim underline pa3 pointer'
-			onClick = {() => onSignedInRouteChange('home')}>Home</p>
+			onClick = {() => onSignedInRouteChange('home', replace)}>Home</p>
 				<p className = 'f3 black link dim underline pa3 pointer'
 			onClick = {() => {
-				onSignedInRouteChange('leaderboard');
+				onSignedInRouteChange('leaderboard', replace);
 				fetchLeaderBoard();}}>Leader Board</p>
 				<p className = 'f3 black link dim underline pa3 pointer'
 			onClick = {() => onSignedOutRouteChange('signin', replace)}>Sign Out</p>

@@ -20,7 +20,7 @@ function fetchLeaderBoard(){
 }
 
 
-function loadUser(user){
+function loadUser(user, replace){
 	/*route argument will be only home as of now but can be updated to include more features in future.
 		method can be called from sign-in page (by clicking sign-in) or from register page (by clicking register).*/
 	const newUser = {
@@ -39,8 +39,9 @@ function loadUser(user){
 		imageStatus : 'empty',
 		user : newUser,
 		isSignedIn : true,
-		route : 'home', 
 		homeMode : ''}); 
+	
+	replace('/home');
 }
 
 export { fetchLeaderBoard, loadUser };

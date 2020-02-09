@@ -22,7 +22,6 @@ import Navigation from '../Navigation/Navigation';
 import {Signin, Register} from '../Authentication';
 import Home from '../Home';
 import LeaderBoard from '../LeaderBoard';
-//import Register from '../Register/Register';
 
 import './App.css';
 import 'tachyons';
@@ -55,28 +54,6 @@ class App extends React.Component{
 		const { imageUrl, apiResponse, isSignedIn, imageStatus, homeMode, user, inputString } = this.state;
 		const {onSearchChange, onFacesButtonSubmitChange, onCelebrityButtonSubmitChange} = this;
 
-		// let renderElem;
-		// if (route === 'signin'){
-		// 	renderElem = <Signin loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange}/>;
-		// } 
-		// else if (route === 'register'){
-		// 	renderElem = <Register loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange}/>;
-		// }
-		// else if (route === 'leaderboard'){
-		// 	renderElem = <LeaderBoard  leaders = {this.state.leaders}/>;
-		// }
-		// else{
-		// 	renderElem = <Home 
-		// 		homeMode = {homeMode} 
-		// 		imageStatus = {imageStatus} 
-		// 		imageUrl = {imageUrl} 
-		// 		apiResponse = {apiResponse} 
-		// 		user = {user} 
-		// 		inputString = {inputString} 
-		// 		onSearchChange = {onSearchChange} 
-		// 		onFacesButtonSubmitChange = { onFacesButtonSubmitChange} 
-		// 		onCelebrityButtonSubmitChange = {onCelebrityButtonSubmitChange} />  
-		// }
 		return (
 			<div className="App">
 				<Particles className = 'particles' params = {particleOptions}/>
