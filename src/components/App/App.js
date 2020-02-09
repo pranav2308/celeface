@@ -16,13 +16,13 @@ import {
 import Particles from 'react-particles-js';
 import particleOptions from '../ParticleOptions/ParticleOptions';
 import Navigation from '../Navigation/Navigation';
-import Signin from '../Signin/Signin';
+import {Signin} from '../Authentication';
 import Register from '../Register/Register';
 import Logo from '../Logo/Logo'
 import ImageLinkForm from '../ImageLinkForm/ImageLinkForm';
-import LeaderBoard from '../LeaderBoard/LeaderBoard';
-import FaceDetection from '../FaceDetection/FaceDetection';
-import CelebrityDetection from '../CelebrityDetection/CelebrityDetection';
+import LeaderBoard from '../LeaderBoard';
+import FaceDetection from '../FaceDetection';
+import CelebrityDetection from '../CelebrityDetection';
 import Rank from '../Rank/Rank';
 import './App.css';
 import 'tachyons';

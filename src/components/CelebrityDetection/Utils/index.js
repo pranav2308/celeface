@@ -1,0 +1,1 @@
+export { generateResult } from './processApiResponse';

@@ -1,18 +1,10 @@
 import React from 'react';
 
-const LeaderBoard = ({ leaders }) => {
-	let renderElem = leaders.map(function(leader, index){
-		return (
-			<tr key = {index}>
-				<td className="pv3 f4 pr3 bb b--black-20">{index + 1}</td>
-				<td className="pv3 f4 pr3 bb b--black-20">{leader.firstname}</td>
-				<td className="pv3 f4 pr3 bb b--black-20">{leader.lastname}</td>
-				<td className="pv3 f4 pr3 bb b--black-20">{leader.country}</td>
-				<td className="pv3 f4 pr3 bb b--black-20">{leader.entries}</td>
-			</tr>
-		);
-	})
 
+const LeaderBoardView = (props) => {
+	const { leaders, getTableContent } = props;
+
+	const renderElem = getTableContent(leaders);
 	return (
 		<div className="pa4">
 			<div className="overflow-auto">
@@ -33,7 +25,4 @@ const LeaderBoard = ({ leaders }) => {
 	);
 }
 
-
-
-
-export default LeaderBoard;
+export default LeaderBoardView;

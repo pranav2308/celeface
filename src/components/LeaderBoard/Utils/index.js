@@ -1,0 +1,1 @@
+export {getTableContent} from './processDatabaseResponse';
