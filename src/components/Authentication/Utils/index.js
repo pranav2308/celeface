@@ -1,2 +1,2 @@
-export { onEmailChange, onPasswordChange } from './OnChange';
-export { onSignInClick } from './OnClicks';
+export { onEmailChange, onPasswordChange, onRegisterFirstNameChange, onRegisterLastNameChange, onRegisterEmailchange, onRegisterPasswordChange, onRegisterReTypePasswordChange, onRegisterCountryChange } from './OnChange';
+export { onSignInClick, onRegisterClick } from './OnClicks';

@@ -16,8 +16,8 @@ import {
 import Particles from 'react-particles-js';
 import particleOptions from '../ParticleOptions/ParticleOptions';
 import Navigation from '../Navigation/Navigation';
-import {Signin} from '../Authentication';
-import Register from '../Register/Register';
+import {Signin, Register} from '../Authentication';
+//import Register from '../Register/Register';
 import Logo from '../Logo/Logo'
 import ImageLinkForm from '../ImageLinkForm/ImageLinkForm';
 import LeaderBoard from '../LeaderBoard';
