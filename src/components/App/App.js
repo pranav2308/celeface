@@ -17,13 +17,10 @@ import Particles from 'react-particles-js';
 import particleOptions from '../ParticleOptions/ParticleOptions';
 import Navigation from '../Navigation/Navigation';
 import {Signin, Register} from '../Authentication';
-//import Register from '../Register/Register';
-import Logo from '../Logo/Logo'
-import ImageLinkForm from '../ImageLinkForm/ImageLinkForm';
+import Home from '../Home';
 import LeaderBoard from '../LeaderBoard';
-import FaceDetection from '../FaceDetection';
-import CelebrityDetection from '../CelebrityDetection';
-import Rank from '../Rank/Rank';
+//import Register from '../Register/Register';
+
 import './App.css';
 import 'tachyons';
 
@@ -52,7 +49,8 @@ class App extends React.Component{
 	
 
 	render(){
-		const { route, imageUrl, apiResponse, isSignedIn, imageStatus } = this.state;
+		const { route, imageUrl, apiResponse, isSignedIn, imageStatus, homeMode, user, inputString } = this.state;
+		const {onSearchChange, onFacesButtonSubmitChange, onCelebrityButtonSubmitChange} = this;
 
 		let renderElem;
 		if (route === 'signin'){
@@ -65,20 +63,16 @@ class App extends React.Component{
 			renderElem = <LeaderBoard  leaders = {this.state.leaders}/>;
 		}
 		else{
-			let apiElement;
-			if(this.state.homeMode === 'FaceDetection'){
-				apiElement = <FaceDetection imageStatus = {imageStatus} imageUrl = {imageUrl} apiResponse = {apiResponse} />;
-			}
-			else if (this.state.homeMode === 'CelebrityDetection'){
-				apiElement = <CelebrityDetection imageStatus = {imageStatus} imageUrl = {imageUrl} apiResponse = {apiResponse}/>
-			}
-			renderElem = 
-				<div>
-					<Logo />
-					<Rank userFirstName = {this.state.user.firstName} userLastName = {this.state.user.lastName} userEntries = {this.state.user.entries} />
-					<ImageLinkForm inputString = {this.state.inputString} onSearchChange = {this.onSearchChange} onFacesButtonSubmitChange = {this.onFacesButtonSubmitChange} onCelebrityButtonSubmitChange = {this.onCelebrityButtonSubmitChange}/>
-					{apiElement}		
-				</div>
+			renderElem = <Home 
+				homeMode = {homeMode} 
+				imageStatus = {imageStatus} 
+				imageUrl = {imageUrl} 
+				apiResponse = {apiResponse} 
+				user = {user} 
+				inputString = {inputString} 
+				onSearchChange = {onSearchChange} 
+				onFacesButtonSubmitChange = { onFacesButtonSubmitChange} 
+				onCelebrityButtonSubmitChange = {onCelebrityButtonSubmitChange} />  
 		}
 		return (
 			<div className="App">
