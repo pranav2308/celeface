@@ -20,6 +20,7 @@ import {
 import Particles from 'react-particles-js';
 import particleOptions from '../ParticleOptions/ParticleOptions';
 import Navigation from '../Navigation/Navigation';
+import PageNotFound from '../PageNotFound/PageNotFound';
 import {Signin, Register} from '../Authentication';
 import Home from '../Home';
 import LeaderBoard from '../LeaderBoard';
@@ -61,7 +62,7 @@ class App extends React.Component{
 				<Router>
 					<Route render = {(props) => <Navigation onSignedOutRouteChange = {this.onSignedOutRouteChange} onSignedInRouteChange = {this.onSignedInRouteChange} fetchLeaderBoard = {this.fetchLeaderBoard} isSignedIn = {isSignedIn} {...props}/>}/>
 					<Switch>
-						<Route exact path = '/signin' render = {(props) => <Signin loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange} {...props}/>}/>
+						<Route exact path = {['/signin', '/']} render = {(props) => <Signin loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange} {...props}/>}/>
 						<Route exact path = '/register' render = {(props) => <Register loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange} {...props}/>}/>
 						<Route exact path = '/leaderboard' render = {(props) => <AuthenticationProtectedRoute  leaders = {this.state.leaders} isSignedIn = {isSignedIn} component = {LeaderBoard}/>}/>
 						<Route 
@@ -79,6 +80,7 @@ class App extends React.Component{
 							onCelebrityButtonSubmitChange = {onCelebrityButtonSubmitChange}
 							isSignedIn = {isSignedIn}
 							component = {Home} />}/>
+						<Route component = {PageNotFound}/>
 					</Switch>
 				</Router>
 			</div>
