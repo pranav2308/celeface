@@ -28,7 +28,7 @@ class Register extends React.Component{
 	
 
 	render(){
-		const { onSignedOutRouteChange } = this.props;
+		const { onSignedOutRouteChange, history } = this.props;
 		const { onRegisterFirstNameChange, onRegisterLastNameChange, onRegisterEmailchange, onRegisterPasswordChange, onRegisterReTypePasswordChange, onRegisterCountryChange, onRegisterClick } = this;
 		const {registerCountry} = this.state; 
 		return(
@@ -42,6 +42,7 @@ class Register extends React.Component{
 				onRegisterClick = {onRegisterClick}
 				registerCountry = {registerCountry}
 				onSignedOutRouteChange = {onSignedOutRouteChange}
+				history = {history}
 			/>
 		);
 	}

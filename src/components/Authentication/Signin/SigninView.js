@@ -4,7 +4,8 @@ import React from 'react';
 const SigninView = (props) => {
 	
 
-	const { onEmailChange, onPasswordChange, onSignInClick, onSignedOutRouteChange } = props;
+	const { onEmailChange, onPasswordChange, onSignInClick, onSignedOutRouteChange, history } = props;
+	const {replace} = history
 
 	return(
 		<article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw5 shadow-5 center">	
@@ -36,7 +37,7 @@ const SigninView = (props) => {
 				       onClick = {onSignInClick} />
 				    </div>
 				    <div className="lh-copy mt3 pointer">
-				      <p onClick = {() => onSignedOutRouteChange('register')}
+				      <p onClick = {() => onSignedOutRouteChange('register', replace)}
 				      className="f6 link dim black db">New here?, try Registering!</p>
 				    </div>
 				</div>

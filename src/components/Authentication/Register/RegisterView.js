@@ -3,8 +3,8 @@ import { CountryDropdown } from 'react-country-region-selector';
 
 const RegisterView = (props) => {
 
-	const { onRegisterFirstNameChange, onRegisterLastNameChange, onRegisterEmailchange, onRegisterPasswordChange, onRegisterReTypePasswordChange, onRegisterCountryChange, onRegisterClick, registerCountry, onSignedOutRouteChange } = props;
-
+	const { onRegisterFirstNameChange, onRegisterLastNameChange, onRegisterEmailchange, onRegisterPasswordChange, onRegisterReTypePasswordChange, onRegisterCountryChange, onRegisterClick, registerCountry, onSignedOutRouteChange, history } = props;
+	const { replace } = history;
 	return(
 		<article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw5 shadow-5 center">	
 			<main className="pa4 black-80">
@@ -70,7 +70,7 @@ const RegisterView = (props) => {
 				       onClick = {onRegisterClick} />
 				    </div>
 				    <div className="lh-copy mt3 pointer">
-			      		<p onClick = {() => onSignedOutRouteChange('signin')}
+			      		<p onClick = {() => onSignedOutRouteChange('signin', replace)}
 			      		className="f6 link dim black db">Already a member?, sign-in!</p>
 			    	</div>
 				</div>

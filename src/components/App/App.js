@@ -1,4 +1,6 @@
 import React from 'react';
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+
 import {
 	onSearchChange, 
 	onFacesButtonSubmitChange, 
@@ -12,6 +14,7 @@ import {
 	fetchLeaderBoard, 
 	loadUser,
 	setImageStatus  } from './Utils';
+
 
 import Particles from 'react-particles-js';
 import particleOptions from '../ParticleOptions/ParticleOptions';
@@ -49,38 +52,55 @@ class App extends React.Component{
 	
 
 	render(){
-		const { route, imageUrl, apiResponse, isSignedIn, imageStatus, homeMode, user, inputString } = this.state;
+		const { imageUrl, apiResponse, isSignedIn, imageStatus, homeMode, user, inputString } = this.state;
 		const {onSearchChange, onFacesButtonSubmitChange, onCelebrityButtonSubmitChange} = this;
 
-		let renderElem;
-		if (route === 'signin'){
-			renderElem = <Signin loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange}/>;
-		} 
-		else if (route === 'register'){
-			renderElem = <Register loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange}/>;
-		}
-		else if (route === 'leaderboard'){
-			renderElem = <LeaderBoard  leaders = {this.state.leaders}/>;
-		}
-		else{
-			renderElem = <Home 
-				homeMode = {homeMode} 
-				imageStatus = {imageStatus} 
-				imageUrl = {imageUrl} 
-				apiResponse = {apiResponse} 
-				user = {user} 
-				inputString = {inputString} 
-				onSearchChange = {onSearchChange} 
-				onFacesButtonSubmitChange = { onFacesButtonSubmitChange} 
-				onCelebrityButtonSubmitChange = {onCelebrityButtonSubmitChange} />  
-		}
+		// let renderElem;
+		// if (route === 'signin'){
+		// 	renderElem = <Signin loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange}/>;
+		// } 
+		// else if (route === 'register'){
+		// 	renderElem = <Register loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange}/>;
+		// }
+		// else if (route === 'leaderboard'){
+		// 	renderElem = <LeaderBoard  leaders = {this.state.leaders}/>;
+		// }
+		// else{
+		// 	renderElem = <Home 
+		// 		homeMode = {homeMode} 
+		// 		imageStatus = {imageStatus} 
+		// 		imageUrl = {imageUrl} 
+		// 		apiResponse = {apiResponse} 
+		// 		user = {user} 
+		// 		inputString = {inputString} 
+		// 		onSearchChange = {onSearchChange} 
+		// 		onFacesButtonSubmitChange = { onFacesButtonSubmitChange} 
+		// 		onCelebrityButtonSubmitChange = {onCelebrityButtonSubmitChange} />  
+		// }
 		return (
 			<div className="App">
-				
 				<Particles className = 'particles' params = {particleOptions}/>
-				<Navigation onSignedOutRouteChange = {this.onSignedOutRouteChange} onSignedInRouteChange = {this.onSignedInRouteChange} fetchLeaderBoard = {this.fetchLeaderBoard} isSignedIn = {isSignedIn}/>
-				{renderElem}
-
+				<Router>
+					<Route render = {(props) => <Navigation onSignedOutRouteChange = {this.onSignedOutRouteChange} onSignedInRouteChange = {this.onSignedInRouteChange} fetchLeaderBoard = {this.fetchLeaderBoard} isSignedIn = {isSignedIn} {...props}/>}/>
+					<Switch>
+						<Route exact path = '/signin' render = {(props) => <Signin loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange} {...props}/>}/>
+						<Route exact path = '/register' render = {(props) => <Register loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange} {...props}/>}/>
+						<Route exact path = '/leaderboard' render = {(props) => <LeaderBoard  leaders = {this.state.leaders}/>}/>
+						<Route 
+							exact path = '/home' 
+							render = {(props) => 
+							<Home 
+							homeMode = {homeMode} 
+							imageStatus = {imageStatus} 
+							imageUrl = {imageUrl} 
+							apiResponse = {apiResponse} 
+							user = {user} 
+							inputString = {inputString} 
+							onSearchChange = {onSearchChange} 
+							onFacesButtonSubmitChange = { onFacesButtonSubmitChange} 
+							onCelebrityButtonSubmitChange = {onCelebrityButtonSubmitChange} />}/>
+					</Switch>
+				</Router>
 			</div>
 		);
 	}

@@ -19,7 +19,7 @@ class Signin extends React.Component{
 	
 
 	render(){
-		const { onSignedOutRouteChange } = this.props;
+		const { onSignedOutRouteChange, history } = this.props;
 		const { onEmailChange, onPasswordChange, onSignInClick } = this;
 
 		return(
@@ -28,6 +28,7 @@ class Signin extends React.Component{
 				onPasswordChange = { onPasswordChange }
 				onSignInClick = { onSignInClick }
 				onSignedOutRouteChange = { onSignedOutRouteChange }
+				history = {history}
 			/>
 		);
 		
