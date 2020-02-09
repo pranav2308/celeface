@@ -13,7 +13,8 @@ import {
 	callClarifaiCelebrityDetect,
 	fetchLeaderBoard, 
 	loadUser,
-	setImageStatus  } from './Utils';
+	setImageStatus,
+	AuthenticationProtectedRoute  } from './Utils';
 
 
 import Particles from 'react-particles-js';
@@ -62,11 +63,11 @@ class App extends React.Component{
 					<Switch>
 						<Route exact path = '/signin' render = {(props) => <Signin loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange} {...props}/>}/>
 						<Route exact path = '/register' render = {(props) => <Register loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange} {...props}/>}/>
-						<Route exact path = '/leaderboard' render = {(props) => <LeaderBoard  leaders = {this.state.leaders}/>}/>
+						<Route exact path = '/leaderboard' render = {(props) => <AuthenticationProtectedRoute  leaders = {this.state.leaders} isSignedIn = {isSignedIn} component = {LeaderBoard}/>}/>
 						<Route 
 							exact path = '/home' 
 							render = {(props) => 
-							<Home 
+							<AuthenticationProtectedRoute 
 							homeMode = {homeMode} 
 							imageStatus = {imageStatus} 
 							imageUrl = {imageUrl} 
@@ -75,7 +76,9 @@ class App extends React.Component{
 							inputString = {inputString} 
 							onSearchChange = {onSearchChange} 
 							onFacesButtonSubmitChange = { onFacesButtonSubmitChange} 
-							onCelebrityButtonSubmitChange = {onCelebrityButtonSubmitChange} />}/>
+							onCelebrityButtonSubmitChange = {onCelebrityButtonSubmitChange}
+							isSignedIn = {isSignedIn}
+							component = {Home} />}/>
 					</Switch>
 				</Router>
 			</div>
