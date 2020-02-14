@@ -16,7 +16,7 @@ import {
 	setImageStatus,
 	AuthenticationProtectedRoute  } from './Utils';
 
-
+import About from '../About';
 import Particles from 'react-particles-js';
 import particleOptions from '../ParticleOptions/ParticleOptions';
 import Navigation from '../Navigation/Navigation';
@@ -62,6 +62,7 @@ class App extends React.Component{
 				<Router>
 					<Route render = {(props) => <Navigation onSignedOutRouteChange = {this.onSignedOutRouteChange} onSignedInRouteChange = {this.onSignedInRouteChange} fetchLeaderBoard = {this.fetchLeaderBoard} isSignedIn = {isSignedIn} {...props}/>}/>
 					<Switch>
+						<Route exact path = '/about' component = {About}/>
 						<Route exact path = {['/signin', '/']} render = {(props) => <Signin loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange} {...props}/>}/>
 						<Route exact path = '/register' render = {(props) => <Register loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange} {...props}/>}/>
 						<Route exact path = '/leaderboard' render = {(props) => <AuthenticationProtectedRoute  leaders = {this.state.leaders} isSignedIn = {isSignedIn} component = {LeaderBoard}/>}/>
