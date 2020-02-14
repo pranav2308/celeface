@@ -7,7 +7,8 @@ const Navigation = ({ onSignedOutRouteChange, onSignedInRouteChange, fetchLeader
 	if (isSignedIn){
 		return(
 			<nav style = {{display : 'flex', justifyContent : 'flex-end'}} >
-
+				<p className = 'f3 black link dim underline pa3 pointer'
+			onClick = {() => onSignedInRouteChange('about', replace)}>About</p>
 				<p className = 'f3 black link dim underline pa3 pointer'
 			onClick = {() => onSignedInRouteChange('home', replace)}>Home</p>
 				<p className = 'f3 black link dim underline pa3 pointer'
@@ -24,6 +25,8 @@ const Navigation = ({ onSignedOutRouteChange, onSignedInRouteChange, fetchLeader
 		
 		return(
 			<nav style = {{display : 'flex', justifyContent : 'flex-end'}}>
+				<p className = 'f3 black link dim underline pa3 pointer'
+				onClick = {() => onSignedInRouteChange('about', replace)}>About</p>
 				<p className = 'f3 black link dim underline pa3 pointer'
 				onClick = {() => onSignedOutRouteChange('signin', replace)}>Sign In</p>
 				<p className = 'f3 black link dim underline pa3 pointer'
