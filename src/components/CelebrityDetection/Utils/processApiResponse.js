@@ -9,6 +9,7 @@ const calculateFaceLocations = (clarifaiFaces) => {
   
   let width, height;
   
+  //If image exist on the page then get its dimensions else make it 0.
   try{
   	const image = document.getElementById('inputImage');
 	width = Number(image.width);
@@ -18,6 +19,7 @@ const calculateFaceLocations = (clarifaiFaces) => {
   	height = 0;
   }
  
+ //Magnify clarify output by the image's dimension.
   return clarifaiFaces.map((element) => {
       const squarePercentages = element.region_info.bounding_box;
       return (
@@ -57,6 +59,7 @@ const generateResult = (clarifaiFaces) => {
 	let tableEntries = [];
 	let faceBoxElement = [];
 
+	//For each celebrity, add the table entry and bounding box with same color.
 	for(let index = 0; index < noOfCelebrities; index++){
 		let color = generateRandomColor();
 

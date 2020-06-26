@@ -1,6 +1,11 @@
 import {isValidRegistrationForm} from './Validate';
 
 function onSignInClick() {
+	/*
+	* Send the user credentials to server api
+	* If the credentials are valid then log-in the user
+	* else pull up the appropriate alert.
+	*/
 	fetch('https://celeface-server.herokuapp.com/signin', {
 		method : 'post',
 		headers : {'Content-Type' : 'application/json'},
@@ -34,6 +39,11 @@ function onSignInClick() {
 }
 
 function onRegisterClick(){
+	/*
+	* Send the user credentials to server api
+	* If the credentials are valid then register the user
+	* else pull up the appropriate alert.
+	*/
 		
 	if(isValidRegistrationForm(this.state)){
 		fetch('https://celeface-server.herokuapp.com/register', {

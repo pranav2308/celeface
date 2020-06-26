@@ -17,6 +17,12 @@ function onCelebrityButtonSubmitChange(event){
 }
 
 function setImageStatus(imageUrl){
+	/*
+	* Check if image url is inserted by user
+	* If valid image url is inserted then update the user's image entries
+	* else display error and signout the user. 
+	*/
+	
 	if(imageUrl === ''){
 		this.setState({imageStatus : 'empty'});
 	}
@@ -53,9 +59,11 @@ function setImageStatus(imageUrl){
 			})
 
 		}.bind(this);
+
 		img.onerror = function(){
 			this.setState({imageStatus : 'invalid'});
 		}.bind(this);
+
 		img.src = imageUrl;
 	}
 }

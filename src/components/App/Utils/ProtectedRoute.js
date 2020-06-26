@@ -3,6 +3,11 @@ import { Route, Redirect } from 'react-router-dom';
 
 
 const AuthenticationProtectedRoute = (props) => {
+
+	/*
+	* If the user is signed in then return the component
+	* Else redirect the user to signin. 
+	*/
 	
 	const { component : Component, isSignedIn } = props;
 	

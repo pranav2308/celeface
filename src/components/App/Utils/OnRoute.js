@@ -7,9 +7,11 @@ function onSignedInRouteChange(route, replace){
 }
 
 function onSignedOutRouteChange(route, replace){
-	/*route argument can be either sign-in page or register.
+	/*
+		Route argument can be either sign-in page or register.
 		method can be called from sign-in page, register page or from home page via sign-out 
-		the route can be either to sign-in page or register page*/
+		the route can be either to sign-in page or register page
+	*/
 
 	this.setState({
 		isSignedIn : false,

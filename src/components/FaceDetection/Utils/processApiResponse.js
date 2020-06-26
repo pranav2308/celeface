@@ -4,6 +4,7 @@ const calculateFaceLocations = (clarifaiFaces) => {
   
   let width, height;
   
+  //If image exist on the page then get its dimensions else make it 0.
   try{
   	const image = document.getElementById('inputImage');
 	width = Number(image.width);
@@ -13,6 +14,7 @@ const calculateFaceLocations = (clarifaiFaces) => {
   	height = 0;
   }
  
+ //Magnify clarify output by the image's dimension.
   return clarifaiFaces.map((element) => {
       const squarePercentages = element.region_info.bounding_box;
       return (

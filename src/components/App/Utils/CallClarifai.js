@@ -1,4 +1,9 @@
 function callClarifaiFaceDetect(imageUrl){
+	/* 
+	* Calls the server api for clarifai face detect
+	* If response is valid then stored in app state
+	* else appropriate alert is pulled.   
+	*/
 	fetch('https://celeface-server.herokuapp.com/faces', {
 		method : 'post',
 		headers : {'Content-Type' : 'application/json'},
@@ -28,6 +33,13 @@ function callClarifaiFaceDetect(imageUrl){
 }
 
 function callClarifaiCelebrityDetect(imageUrl){
+
+	/* 
+	* Calls the server api for clarifai celebrity detect
+	* If response is valid then stored in app state
+	* else appropriate alert is pulled.   
+	*/
+
 	fetch('https://celeface-server.herokuapp.com/celebrity', {
 		method : 'post',
 		headers : {'Content-Type' : 'application/json'},
