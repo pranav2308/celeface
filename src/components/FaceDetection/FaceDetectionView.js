@@ -6,6 +6,7 @@ const FaceDetectionView = (props) => {
 	const { imageStatus, imageUrl, apiResponse, calculateFaceLocations, drawFaceBox } = props;
 
 	let faceBoxElement, renderElement;
+	//If the inpur image is valid image then calculate bounding boxes.
 	if (imageStatus === 'valid'){
 		
 		if (apiResponse !== ''){
@@ -21,6 +22,8 @@ const FaceDetectionView = (props) => {
 						{faceBoxElement}
 					</div>;
 	}
+
+	//If the image is invalid then display error message.
 	else if (imageStatus === 'invalid'){
 		renderElement = <p className = 'mt4 f4 fw5'>{"Link does not redirects to image. Please check the link and try again"}</p>;
 	}
@@ -29,7 +32,6 @@ const FaceDetectionView = (props) => {
 			{renderElement}
 		</div>
 	);
-
 }
 
 export default FaceDetectionView;
