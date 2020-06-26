@@ -4,13 +4,12 @@ import './CelebrityDetection.css';
 const CelebrityDetectionView = (props) => {
 	const { imageStatus, imageUrl, apiResponse, generateResult } = props;
 
-	let tableElement, faceBoxElement;
+	let tableElement, faceBoxElement, faceBoxRenderElement;
 	if(imageStatus === 'valid'){
 
 		if (apiResponse !== ''){
 			const clarifaiFaces = apiResponse.outputs[0].data.regions;
 			if(clarifaiFaces){
-				//{ tableElement, faceBoxElement } = generateResult(clarifaiFaces);
 				const result = generateResult(clarifaiFaces);
 				tableElement = result.tableElement;
 				faceBoxElement = result.faceBoxElement; 
@@ -25,22 +24,25 @@ const CelebrityDetectionView = (props) => {
 						</div>);
 		 
 	}
-	if(!tableElement){
-		tableElement = <p className = 'mt4 f4 fw5'>{"Processing........"}</p>
+	
+	if(imageStatus !== 'empty'){
+		if(!tableElement){
+			tableElement = <p className = 'mt4 f4 fw5'>{"Processing........"}</p>
+		}
+
+		faceBoxRenderElement = 
+				<div className = 'absolute mt2'>
+						<img id = "inputImage" alt = 'Celebrity faces' src = {imageUrl} width = '500px' height = 'auto' style = {{ border: '3px solid #021a40' }}/>
+					{faceBoxElement}
+				</div>;
 	}
+
 	return (
 		<div>
 			{tableElement}
 			<div className = 'center ma'>
-				<div className = 'absolute mt2'>
-					<img id = "inputImage" alt = 'Celebrity faces' src = {imageUrl} width = '500px' height = 'auto' style = {{ border: '3px solid #021a40' }}/>
-					{faceBoxElement}
-				</div>
-
+				{faceBoxRenderElement}
 			</div>
-			
-			
-
 		</div>
 	);
 }
