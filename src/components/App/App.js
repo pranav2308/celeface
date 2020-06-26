@@ -7,7 +7,6 @@ import {
 	onCelebrityButtonSubmitChange, 
 	onSignedOutRouteChange, 
 	onSignedInRouteChange,
-	emptyUser, 
 	initialState,
 	callClarifaiFaceDetect,
 	callClarifaiCelebrityDetect,
@@ -53,19 +52,19 @@ class App extends React.Component{
 	
 
 	render(){
-		const { imageUrl, apiResponse, isSignedIn, imageStatus, homeMode, user, inputString } = this.state;
-		const {onSearchChange, onFacesButtonSubmitChange, onCelebrityButtonSubmitChange} = this;
+		const { imageUrl, apiResponse, isSignedIn, imageStatus, homeMode, user, inputString, leaders } = this.state;
+		const {onSearchChange, onFacesButtonSubmitChange, onCelebrityButtonSubmitChange, onSignedOutRouteChange, onSignedInRouteChange, fetchLeaderBoard, loadUser} = this;
 
 		return (
 			<div className="App">
 				<Particles className = 'particles' params = {particleOptions}/>
 				<Router>
-					<Route render = {(props) => <Navigation onSignedOutRouteChange = {this.onSignedOutRouteChange} onSignedInRouteChange = {this.onSignedInRouteChange} fetchLeaderBoard = {this.fetchLeaderBoard} isSignedIn = {isSignedIn} {...props}/>}/>
+					<Route render = {(props) => <Navigation onSignedOutRouteChange = {onSignedOutRouteChange} onSignedInRouteChange = {onSignedInRouteChange} fetchLeaderBoard = {fetchLeaderBoard} isSignedIn = {isSignedIn} {...props}/>}/>
 					<Switch>
 						<Route exact path = '/about' component = {About}/>
-						<Route exact path = {['/signin', '/']} render = {(props) => <Signin loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange} {...props}/>}/>
-						<Route exact path = '/register' render = {(props) => <Register loadUser = {this.loadUser} onSignedOutRouteChange = {this.onSignedOutRouteChange} {...props}/>}/>
-						<Route exact path = '/leaderboard' render = {(props) => <AuthenticationProtectedRoute  leaders = {this.state.leaders} isSignedIn = {isSignedIn} component = {LeaderBoard}/>}/>
+						<Route exact path = {['/signin', '/']} render = {(props) => <Signin loadUser = {loadUser} onSignedOutRouteChange = {onSignedOutRouteChange} {...props}/>}/>
+						<Route exact path = '/register' render = {(props) => <Register loadUser = {loadUser} onSignedOutRouteChange = {onSignedOutRouteChange} {...props}/>}/>
+						<Route exact path = '/leaderboard' render = {(props) => <AuthenticationProtectedRoute  leaders = {leaders} isSignedIn = {isSignedIn} component = {LeaderBoard}/>}/>
 						<Route 
 							exact path = '/home' 
 							render = {(props) => 

@@ -1,6 +1,5 @@
-import React from 'react';
 import {emptyUser} from './DefaultObj';
-import { Redirect } from 'react-router-dom';
+
 
 function onSignedInRouteChange(route, replace){
 	const newUrl = '/'.concat(route);

@@ -33,7 +33,7 @@ const CelebrityDetectionView = (props) => {
 			{tableElement}
 			<div className = 'center ma'>
 				<div className = 'absolute mt2'>
-					<img id = "inputImage" alt = 'Input image' src = {imageUrl} width = '500px' height = 'auto' style = {{ border: '3px solid #021a40' }}/>
+					<img id = "inputImage" alt = 'Celebrity faces' src = {imageUrl} width = '500px' height = 'auto' style = {{ border: '3px solid #021a40' }}/>
 					{faceBoxElement}
 				</div>
 
